@@ -4,27 +4,24 @@ import xml.etree.ElementTree as ET
 class FeedRSS():
     def __init__(self):
         self._filenames = list()
+        self._title = list()
+        self._link = list()
 
     def downloadXML(self, *urls):
         for i in range(len(urls)):
             urllib.request.urlretrieve(urls[i], f".rss{i}.xml")
             self._filenames.append(f".rss{i}.xml")
 
-    def xtractData(self, *elements):
-        root = ET.parse(self._filenames[0]).getroot()
-        titulo = list()
-        link = list()
+    def xtractData(self):
+        for file in self._filenames:
+            root = ET.parse(file).getroot()
+            itemElement = root.findall("channel/item")
 
-        for x in root.findall("channel/item/title"):
-            titulo.append(x.text)
+            for i in itemElement:
+                self._title.append(i[0].text)
+                self._link.append(i[1].text)
 
-        for x in root.findall("channel/item/link"):
-            link.append(x.text)
-
-        for x in range(len(titulo)):
-            print(titulo[x])
-            print(link[x])
-            print()
+        return self._title, self._link
 
 
 if __name__ == "__main__":
@@ -33,4 +30,4 @@ if __name__ == "__main__":
 
     feed = FeedRSS()
     feed.downloadXML(URL1, URL2)
-    feed.xtractData()
+    titles, links = feed.xtractData()

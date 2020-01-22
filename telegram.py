@@ -10,13 +10,17 @@ class BotTelegram():
             if text[i] == " ":
                 text = text[:i] + "%20" + text[i+1:]
 
+            elif text[i] == "\n":
+                text = text[:i] + "%0A" + text[i+1:]
+
         return text
 
     def sendMessage(self, message):
         API = f"https://api.telegram.org/bot{self._token}/sendMessage?chat_id={self._chatId}&text={message}"
         API = self._encodeURL(API)
-
+        print(API[113])
         response = urllib.request.urlopen(API)
+
 
     def sendPhoto(self):
         pass
