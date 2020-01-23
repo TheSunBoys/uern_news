@@ -1,19 +1,17 @@
-from rss import FeedRSS
+from rss import AnalyzeRSS, DataBot, downloadXML
 from telegram import BotTelegram
 
 if __name__ == "__main__":
     URL1 = "http://portal.uern.br/blog/category/noticias/feed/"
     URL2 = "https://aduern.org.br/category/noticias/feed/"
 
-    with open(".bot", "r") as f:
-        token = f.read().split("\n")
+    token, chatId = DataBot.readJson()
 
+    downloadXML(URL1, URL2)
+    analyze = AnalyzeRSS()
+    titles, links = analyze.getData()
 
-    rss = FeedRSS()
-    rss.downloadXML(URL1, URL2)
-    titles, links = rss.xtractData()
-
-    bot = BotTelegram(token[0], token[1])
+    bot = BotTelegram(token, chatId)
 
     for x in range(len(titles)):
         message = titles[x] + "\n" + links[x]
