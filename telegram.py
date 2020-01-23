@@ -1,3 +1,4 @@
+import urllib.parse
 import urllib.request
 
 class BotTelegram():
@@ -5,22 +6,11 @@ class BotTelegram():
         self._token = token
         self._chatId = chatId
 
-    def _encodeURL(self, text):
-        for i in range(len(text)):
-            if text[i] == " ":
-                text = text[:i] + "%20" + text[i+1:]
-
-            elif text[i] == "\n":
-                text = text[:i] + "%0A" + text[i+1:]
-
-        return text
-
     def sendMessage(self, message):
+        message = urllib.parse.quote(message)
         API = f"https://api.telegram.org/bot{self._token}/sendMessage?chat_id={self._chatId}&text={message}"
-        API = self._encodeURL(API)
-        print(API[113])
-        response = urllib.request.urlopen(API)
 
+        response = urllib.request.urlopen(API)
 
     def sendPhoto(self):
         pass
