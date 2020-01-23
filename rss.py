@@ -30,8 +30,8 @@ class DataBot():
     def writeJson(token, chat_id):
         config = {"token": token, "chatId": chat_id}
 
-    with open(".bot.json", "w") as file:
-        json.dump(config, file, ensure_ascii=False, indent=2)
+        with open(".bot.json", "w") as file:
+            json.dump(config, file, ensure_ascii=False, indent=2)
 
     @staticmethod
     def readJson():
@@ -41,5 +41,7 @@ class DataBot():
         return config["token"], config["chatId"]
 
 if __name__ == "__main__":
-    TOKEN = "put yuor token here"
-    CHAT_ID = "put your chat_id here"
+    TOKEN = "your token here"
+    CHAT_ID = "-your chat_id here"
+
+    DataBot.writeJson(TOKEN, CHAT_ID)
