@@ -1,3 +1,4 @@
+import json
 import urllib.request
 import xml.etree.ElementTree as ET
 
@@ -24,10 +25,21 @@ class FeedRSS():
         return self._title, self._link
 
 
-if __name__ == "__main__":
-    URL1 = "http://portal.uern.br/blog/category/noticias/feed/"
-    URL2 = "https://aduern.org.br/category/noticias/feed/"
+class DataBot():
+    @staticmethod
+    def writeJson(token, chat_id):
+        config = {"token": token, "chatId": chat_id}
 
-    feed = FeedRSS()
-    feed.downloadXML(URL1, URL2)
-    titles, links = feed.xtractData()
+    with open(".bot.json", "w") as file:
+        json.dump(config, file, ensure_ascii=False, indent=2)
+
+    @staticmethod
+    def readJson():
+        with open(".bot.json", "r") as file:
+            config = json.load(file)
+
+        return config["token"], config["chatId"]
+
+if __name__ == "__main__":
+    TOKEN = "put yuor token here"
+    CHAT_ID = "put your chat_id here"
