@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     bot = BotTelegram(token, chatId)
 
-    for x in range(len(titles)):
+    for x in range(len(titles)-1, -1, -1):
         message = titles[x] + "\n" + links[x]
 
         bot.sendMessage(message)
