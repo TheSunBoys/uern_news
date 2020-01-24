@@ -16,7 +16,7 @@ def downloadXML(*urls):
     return filenames
 
 class AnalyzeRSS():
-    def _xtractData(self, *files):
+    def _xtractData(self, files):
         title = list()
         link = list()
 
@@ -35,7 +35,7 @@ class AnalyzeRSS():
         files = os.listdir(".database")
 
         for file in files:
-            if file[:3] == "new":
+            if file[1:4] == "new":
                 length += 1
 
         filenames = [f".database/.new{x}.xml" for x in range(length)]
@@ -47,7 +47,7 @@ class AnalyzeRSS():
         files = os.listdir(".database")
 
         for file in files:
-            if file[:3] == "old":
+            if file[1:4] == "old":
                 length += 1
 
         if length > 0:
@@ -57,27 +57,29 @@ class AnalyzeRSS():
             return False, False
 
     def _updateFilenames(self):
-        files = os.listdir()
+        files = os.listdir(".database")
 
         for file in files:
-            if file[:3] == "old":
-                os.remove(file)
+            if file[1:4] == "old":
+                os.remove(".database/"+file)
 
         for file in files:
-            if file[:3] == "new":
-                os.rename(file, "new"+file[:3])
+            if file[1:4] == "new":
+                os.rename(".database/"+file, ".database/.old"+file[4:])
 
     def getData(self):
         newTitle, newLink = self._newfiles()
         oldTitle, oldLink = self._oldfiles()
 
         if oldTitle != False:
-            for element1 in range(len(newTitle)):
-                for element2 in range(len(oldTitle)):
-                    if newTitle[element1] == oldTitle[element2]:
-                        del(newTitle[element1])
-                        del(newLink[element1])
+            for element in oldTitle:
+                if element in newTitle:
+                    del(newTitle[newTitle.index(element)])
 
+            for element in oldLink:
+                if element in newLink:
+                    del(newLink[newLink.index(element)])
+                    
         self._updateFilenames()
 
         return newTitle, newLink
