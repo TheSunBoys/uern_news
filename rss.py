@@ -16,18 +16,19 @@ class AnalyzeRSS():
         self._dir = directory
 
     def _xtractData(self, files):
-        title = list()
-        link = list()
+        message = list()
 
         for file in files:
             root = ET.parse(file).getroot()
             itemElement = root.findall("channel/item")
 
             for i in itemElement:
-                title.append(i[0].text)
-                link.append(i[1].text)
+                title = i[0].text
+                link = i[1].text
 
-        return title, link
+                message.append(f"{title}\n{link}")
+
+        return message
 
     def _searchFiles(self, name):
         length = 0
@@ -41,7 +42,7 @@ class AnalyzeRSS():
             filenames = [f"{self._dir}/.{name}{x}.xml" for x in range(length)]
             return self._xtractData(filenames)
         else:
-            return False, False
+            return False
 
 
     def _updateFilenames(self):
@@ -56,22 +57,18 @@ class AnalyzeRSS():
                 os.rename(f"{self._dir}/"+file, f"{self._dir}/.old"+file[4:])
 
     def getData(self):
-        newTitle, newLink = self._searchFiles("new")
-        oldTitle, oldLink = self._searchFiles("old")
+        newMessage = self._searchFiles("new")
+        oldMessage = self._searchFiles("old")
 
         # delete duplicates
-        if oldTitle != False:
-            for element in oldTitle:
-                if element in newTitle:
-                    del(newTitle[newTitle.index(element)])
-
-            for element in oldLink:
-                if element in newLink:
-                    del(newLink[newLink.index(element)])
+        if oldMessage != False:
+            for element in oldMessage:
+                if element in newMessage:
+                    del(newMessage[newMessage.index(element)])
 
         self._updateFilenames()
 
-        return newTitle, newLink
+        return newMessage
 
 class DataBot():
     @staticmethod
