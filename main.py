@@ -9,11 +9,9 @@ if __name__ == "__main__":
 
     downloadXML(URL1, URL2)
     analyze = AnalyzeRSS()
-    titles, links = analyze.getData()
+    messages = analyze.getData()
 
     bot = BotTelegram(token, chatId)
 
-    for x in range(len(titles)-1, -1, -1):
-        message = titles[x] + "\n" + links[x]
-
+    for message in messages[::-1]:
         bot.sendMessage(message)
