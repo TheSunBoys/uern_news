@@ -34,6 +34,7 @@ class DataBot():
         return config["token"], config["chatId"]
 
 if __name__ == "__main__":
+    # create .bot.json file
     TOKEN = "your token here"
     CHAT_ID = "-your chat_id here"
 
