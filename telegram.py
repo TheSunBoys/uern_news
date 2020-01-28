@@ -18,18 +18,23 @@ class BotTelegram():
     def getUpdates(self):
         API = f"https://api.telegram.org/bot{self._token}/getUpdates"
 
+class DataBot():
+    @staticmethod
+    def writeJson(token, chat_id):
+        config = {"token": token, "chatId": chat_id}
+
+        with open(".bot.json", "w") as file:
+            json.dump(config, file, ensure_ascii=False, indent=2)
+
+    @staticmethod
+    def readJson():
+        with open(".bot.json", "r") as file:
+            config = json.load(file)
+
+        return config["token"], config["chatId"]
 
 if __name__ == "__main__":
-    file = open(".bot", "r")
+    TOKEN = "your token here"
+    CHAT_ID = "-your chat_id here"
 
-    lista = list()
-
-    for x in file:
-        lista.append(x.rstrip("\n"))
-
-    token = lista[0]
-    chat_id = None
-    message = "teste"
-
-    bot = BotTelegram(token, chat_id)
-    bot.sendMessage(message)
+    DataBot.writeJson(TOKEN, CHAT_ID)
