@@ -1,5 +1,4 @@
-# Feed UERN
-### [UERN news](link)
+# [Feed UERN](https://t.me/UERN_news)
 
 #### sobre o projeto
 - bot feito em python que analisa elementos de um rss e envia para um chat/grupo/canal do telegram usando a API
