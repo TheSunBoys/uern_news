@@ -8,7 +8,7 @@ de um bot do telegram.
 
 #### informações sobre o codigo
 - o token do bot e o id do tipo de chat que bot usará precisam estar em um arquivo chamado **.bot.json**,
-para cria-lo basta usar o arquivo *rss.py* e modificar o final com seus dados e executar o mesmo.
+para cria-lo basta usar o arquivo *telegram.py* e modificar o final com seus dados e executar o mesmo.
 
 - As urls ficam no arquivo *main.py*, responsavel por chamar os modulos necessarios e orquestar a execução do algoritmo, essas urls são passadas como argumento para a função *donwloadXML*, pode passar quantos argumentos desejar, desde que todos sejam urls para acessar um rss
 
