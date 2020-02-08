@@ -1,5 +1,5 @@
-from rss import AnalyzeRSS, downloadXML
-from telegram import BotTelegram, DataBot
+from modules.rss import AnalyzeRSS, downloadXML
+from modules.telegram import BotTelegram, DataBot
 
 if __name__ == "__main__":
     URL1 = "http://portal.uern.br/blog/category/noticias/feed/"
