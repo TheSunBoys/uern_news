@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 
@@ -42,10 +43,15 @@ class Database():
     def getWaitingMessages(self):
         return self._database["waiting"]
 
-    def removeFromListWait(self):
-        pass
+    def removeFromWaitList(self, message):
+        index_ = self;_database["waiting"].index(message)
+        date = str(datetime.datetime.now())
 
+        self._database["history"].append({
+        "msg": self._database["waiting"][index_],
+        "sendDate": date[:len(date)-7]
+        })
 
-if __name__ == "__main__":
-    data = Database()
-    data._history()
+        del(self._database["waiting"][index_])
+
+        self._saveDatabase()
