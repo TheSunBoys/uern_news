@@ -3,16 +3,19 @@ import urllib.request
 import xml.etree.ElementTree as ET
 
 def downloadXML(*urls):
-    if os.path.exists(".database") == False:
-        os.mkdir(".database")
+    directory = ".database"
+
+    if os.path.exists(directory) == False:
+        os.mkdir(directory)
 
     for i in range(len(urls)):
-        urllib.request.urlretrieve(urls[i], f".database/.new{i}.xml")
+        urllib.request.urlretrieve(urls[i], f"{directory}/file{i}.xml")
 
 
 class AnalyzeRSS():
-    def __init__(self, directory = ".database"):
+    def __init__(self, directory = ".database", filename="file"):
         self._dir = directory
+        self._filename = filename
 
     def _xtractData(self, files):
         message = list()
@@ -27,44 +30,31 @@ class AnalyzeRSS():
 
                 message.append(f"{title}\n{link}")
 
-        return message
+        return message[::-1]
 
     def _searchFiles(self, name):
         length = 0
         files = os.listdir(self._dir)
 
         for file in files:
-            if file[1:4] == name:
+            if file[:3] == name:
                 length += 1
 
         if length > 0:
-            filenames = [f"{self._dir}/.{name}{x}.xml" for x in range(length)]
-            return self._xtractData(filenames)
-        else:
-            return False
+            filenames = [f"{self._dir}/{name}{x}.xml" for x in range(length)]
+            return filenames
 
-
-    def _updateFilenames(self):
+    def _removeFiles(self):
         files = os.listdir(self._dir)
 
         for file in files:
-            if file[1:4] == "old":
-                os.remove(f"{self._dir}/"+file)
-
-        for file in files:
-            if file[1:4] == "new":
-                os.rename(f"{self._dir}/"+file, f"{self._dir}/.old"+file[4:])
+            if file[:3] == self._filename:
+                os.remove(f"{self._dir}/{file}")
 
     def getData(self):
-        newMessage = self._searchFiles("new")
-        oldMessage = self._searchFiles("old")
+        files = self._searchFiles(self._filename)
+        self._removeFiles()
 
-        # delete duplicates
-        if oldMessage != False:
-            for element in oldMessage:
-                if element in newMessage:
-                    del(newMessage[newMessage.index(element)])
-
-        self._updateFilenames()
-
-        return newMessage
+        if files != None:
+            data = self._xtractData(files)
+            return data
