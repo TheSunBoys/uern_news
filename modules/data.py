@@ -8,14 +8,16 @@ class Database():
         self._filename = filename
         self._database = None
 
-        if os.path.exists(self._directory) == False:
-            os.mkdir(self._directory)
+        if os.path.exists(self._filename):
+            with open(f"{self._directory}/{self._filename}", "r") as file:
+                self._database = json.load(file)
+        else:
+            if os.path.exists(self._directory) == False:
+                os.mkdir(self._directory)
+
             self._database = {}
             self._database["waiting"] = []
             self._database["history"] = []
-        else:
-            with open(f"{self._directory}/{self._filename}", "r") as file:
-                self._database = json.load(file)
 
     def _removeDuplicate(self, messages):
         for elt in self._database["history"]:
