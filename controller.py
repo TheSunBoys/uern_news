@@ -1,3 +1,4 @@
+from modules.data import Database
 from modules.rss import AnalyzeRSS, downloadXML
 from modules.telegram import BotTelegram, DataBot
 
@@ -9,9 +10,16 @@ if __name__ == "__main__":
 
     downloadXML(URL1, URL2)
     analyze = AnalyzeRSS()
-    messages = analyze.getData()
+    datas = analyze.getData()
+
+    database = Database()
+    database.add(datas)
+    messages = database.getWaitingMessages()
 
     bot = BotTelegram(token, chatId)
 
-    for message in messages[::-1]:
-        bot.sendMessage(message)
+    for message in messages:
+        #answer = bot.sendMessage(message)
+
+        if True:
+            database.removeFromWaitList(message)
