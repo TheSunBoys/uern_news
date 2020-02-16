@@ -31,7 +31,7 @@ class Database():
             self._database["history"] = []
 
     def _removeDuplicate(self, messages, dict_key):
-        """analyzes the database list and removes elements that are already there"""
+        """analyzes the database list and removes elements that are there"""
 
         tem_list = [messages[x]["title"] for x in range(len(messages))]
 
@@ -45,7 +45,7 @@ class Database():
         return messages
 
     def _saveDatabase(self):
-        """Update the json file with latest data of dict"""
+        """Update the json file with latest data from dict"""
 
         with open(f"{self._directory}/{self._filename}", "w") as file:
             json.dump(self._database, file, ensure_ascii=False, indent=2)
@@ -68,7 +68,7 @@ class Database():
     def removeFromWaitList(self, message):
         """removes from the pending message passed as a parameter
         and adds it to the history"""
-        
+
         index_ = self._database["waiting"].index(message)
         date = str(datetime.datetime.now())
 
