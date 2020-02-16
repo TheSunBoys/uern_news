@@ -27,8 +27,13 @@ class AnalyzeRSS():
             for i in itemElement:
                 title = i[0].text
                 link = i[1].text
+                pubdate = i[3].text
 
-                message.append(f"{title}\n{link}")
+                message.append({
+                    "title": title,
+                    "link": link,
+                    "pubDate": pubdate
+                })
 
         return message[::-1]
 
@@ -37,7 +42,7 @@ class AnalyzeRSS():
         files = os.listdir(self._dir)
 
         for file in files:
-            if file[:3] == name:
+            if file[:len(name)] == name:
                 length += 1
 
         if length > 0:
