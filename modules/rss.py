@@ -35,7 +35,7 @@ class AnalyzeRSS():
                     "pubDate": pubdate
                 })
 
-        return message[::-1]
+        return messages[::-1]
 
     def _searchFiles(self, name):
         length = 0
