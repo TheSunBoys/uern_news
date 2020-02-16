@@ -18,7 +18,7 @@ class AnalyzeRSS():
         self._filename = filename
 
     def _xtractData(self, files):
-        message = list()
+        messages = list()
 
         for file in files:
             root = ET.parse(file).getroot()
@@ -29,7 +29,7 @@ class AnalyzeRSS():
                 link = i[1].text
                 pubdate = i[3].text
 
-                message.append({
+                messages.append({
                     "title": title,
                     "link": link,
                     "pubDate": pubdate
