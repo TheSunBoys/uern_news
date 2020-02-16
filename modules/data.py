@@ -1,3 +1,4 @@
+import copy
 import datetime
 import json
 import os
@@ -8,7 +9,8 @@ class Database():
         self._filename = filename
         self._database = None
 
-        if os.path.exists(self._filename):
+        # loads the json dict, if the file does not exist, a new dict is created
+        if os.path.exists(f"{self._directory}/{self._filename}"):
             with open(f"{self._directory}/{self._filename}", "r") as file:
                 self._database = json.load(file)
         else:
@@ -19,14 +21,15 @@ class Database():
             self._database["waiting"] = []
             self._database["history"] = []
 
-    def _removeDuplicate(self, messages):
-        for elt in self._database["history"]:
-            if elt["msg"] in messages:
-                del(messages[messages.index(elt[msg])])
+    def _removeDuplicate(self, messages, dict_key):
+        tem_list = [messages[x]["title"] for x in range(len(messages))]
 
-        for elt in self._database["waiting"]:
-            if elt in messages:
-                del(messages[messages.index(elt)])
+        for elt in self._database[dict_key]:
+            if elt["title"] in tem_list:
+                index_ = tem_list.index(elt["title"])
+
+                del(messages[index_])
+                del(tem_list[index_])
 
         return messages
 
@@ -35,7 +38,8 @@ class Database():
             json.dump(self._database, file, ensure_ascii=False, indent=2)
 
     def add(self, messages):
-        messages = self._removeDuplicate(messages)
+        messages = self._removeDuplicate(messages, "history")
+        messages = self._removeDuplicate(messages, "waiting")
 
         if len(messages) > 0:
             self._database["waiting"] += messages
@@ -43,15 +47,16 @@ class Database():
         self._saveDatabase()
 
     def getWaitingMessages(self):
-        return self._database["waiting"]
+        return copy.deepcopy(self._database["waiting"])
 
     def removeFromWaitList(self, message):
-        index_ = self;_database["waiting"].index(message)
+        index_ = self._database["waiting"].index(message)
         date = str(datetime.datetime.now())
 
         self._database["history"].append({
-        "msg": self._database["waiting"][index_],
-        "sendDate": date[:len(date)-7]
+            "title": self._database["waiting"][index_]["title"],
+            "link": self._database["waiting"][index_]["link"],
+            "sendDate": date[:len(date)-7]
         })
 
         del(self._database["waiting"][index_])
