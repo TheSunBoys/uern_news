@@ -3,12 +3,14 @@ from modules.rss import AnalyzeRSS, downloadXML
 from modules.telegram import BotTelegram, DataBot
 
 if __name__ == "__main__":
-    URL1 = "http://portal.uern.br/blog/category/noticias/feed/"
-    URL2 = "https://aduern.org.br/category/noticias/feed/"
+    URLS = [
+        "http://portal.uern.br/blog/category/noticias/feed/",
+        "https://aduern.org.br/category/noticias/feed/"
+    ]
 
     token, chatId = DataBot.readJson()
 
-    downloadXML(URL1, URL2)
+    downloadXML(URLS)
     analyze = AnalyzeRSS()
     datas = analyze.getData()
 
@@ -19,6 +21,7 @@ if __name__ == "__main__":
     bot = BotTelegram(token, chatId)
 
     for message in messages:
+        #DEBUG
         #answer = bot.sendMessage(message)
 
         if True:
