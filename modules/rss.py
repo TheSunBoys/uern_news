@@ -2,14 +2,18 @@ import os
 import urllib.request
 import xml.etree.ElementTree as ET
 
-def downloadXML(*urls):
+def downloadXML(urls):
     directory = ".database"
 
     if os.path.exists(directory) == False:
         os.mkdir(directory)
 
     for i in range(len(urls)):
-        urllib.request.urlretrieve(urls[i], f"{directory}/file{i}.xml")
+        try:
+            urllib.request.urlretrieve(urls[i], f"{directory}/file{i}.xml")
+        except:
+            print(f"Error in url: {urls[i]}")
+            continue
 
 
 class AnalyzeRSS():
@@ -57,6 +61,9 @@ class AnalyzeRSS():
                 os.remove(f"{self._dir}/{file}")
 
     def getData(self):
+
+        #debug, corrigir classe para que seja capaz de lidar com a ausencia dos arquivos
+
         files = self._searchFiles(self._filename)
         self._removeFiles()
 
