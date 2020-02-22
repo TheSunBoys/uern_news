@@ -1,6 +1,7 @@
+from BotAuth import DataBot
 from modules.data import Database
 from modules.rss import AnalyzeRSS, downloadXML
-from modules.telegram import BotTelegram, DataBot
+from modules.telegram import BotTelegram
 
 if __name__ == "__main__":
     URLS = [
@@ -28,3 +29,6 @@ if __name__ == "__main__":
 
         if True:
             database.removeFromWaitList(message)
+        else:
+            print("Error")
+            break
