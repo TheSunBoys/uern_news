@@ -2,24 +2,27 @@ import os
 import urllib.request
 import xml.etree.ElementTree as ET
 
-def downloadXML(urls):
-    directory = ".database"
-
+def downloadXML(urls, directory=".database"):
+    filenames = list()
+    
     if os.path.exists(directory) == False:
         os.mkdir(directory)
 
     for i in range(len(urls)):
         try:
             urllib.request.urlretrieve(urls[i], f"{directory}/file{i}.xml")
+            filenames.append(f"{directory}/file{i}.xml")
         except:
             print(f"Error in url: {urls[i]}")
             continue
 
+    return filenames
+
 
 class AnalyzeRSS():
-    def __init__(self, directory = ".database", filename="file"):
+    def __init__(self, directory = ".database", filenames=None):
         self._dir = directory
-        self._filename = filename
+        self._filenames = filenames
 
     def _xtractData(self, files):
         messages = list()
@@ -39,34 +42,20 @@ class AnalyzeRSS():
                     "pubDate": pubdate
                 })
 
+        # é retornado a reversa da lista para que os ultimos dados postados
+        # no xml fiquem no fim da lista
         return messages[::-1]
 
-    def _searchFiles(self, name):
-        length = 0
-        files = os.listdir(self._dir)
-
-        for file in files:
-            if file[:len(name)] == name:
-                length += 1
-
-        if length > 0:
-            filenames = [f"{self._dir}/{name}{x}.xml" for x in range(length)]
-            return filenames
-
     def _removeFiles(self):
-        files = os.listdir(self._dir)
+        """Remove os xmls"""
 
-        for file in files:
-            if file[:3] == self._filename:
-                os.remove(f"{self._dir}/{file}")
+        for file in self._filenames:
+            os.remove(file)
 
     def getData(self):
+        
+        if self._filenames != None:
+            data = self._xtractData(self._filenames)
+            self._removeFiles()    
 
-        #debug, corrigir classe para que seja capaz de lidar com a ausencia dos arquivos
-
-        files = self._searchFiles(self._filename)
-        self._removeFiles()
-
-        if files != None:
-            data = self._xtractData(files)
             return data
