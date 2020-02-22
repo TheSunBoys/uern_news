@@ -10,12 +10,14 @@ if __name__ == "__main__":
 
     token, chatId = DataBot.readJson()
 
-    downloadXML(URLS)
-    analyze = AnalyzeRSS()
-    datas = analyze.getData()
-
+    files = downloadXML(URLS)
     database = Database()
-    database.add(datas)
+
+    if len(files) > 0:
+        analyze = AnalyzeRSS(filenames=files)
+        datas = analyze.getData()
+        database.add(datas)
+    
     messages = database.getWaitingMessages()
 
     bot = BotTelegram(token, chatId)
