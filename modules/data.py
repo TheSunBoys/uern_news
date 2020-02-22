@@ -13,9 +13,11 @@ class Database():
     :analisar mensagens antes de serem adicionar ao banco de dados e removendo
     duplicações
     """
-    def __init__(self, directory=".database", filename="database.json"):
+    
+    def __init__(self, directory=".database", filename="database.json", sizeHistory=30):
         self._directory = directory
         self._filename = filename
+        self._sizeHistory = sizeHistory
         self._database = None
 
         # carrega na memoria o json, se o arquivo não existir, um novo será criado
@@ -50,11 +52,19 @@ class Database():
         with open(f"{self._directory}/{self._filename}", "w") as file:
             json.dump(self._database, file, ensure_ascii=False, indent=2)
 
+    def _removeOldDataFromHystory(self):
+        """Este metodo remove mensagens muito antigas do historico
+        de mensagens para manter o limite de dados do historico"""
+
+        while len(self._database["history"]) > self._sizeHistory:
+            del(self._database["history"][0])
+    
     def add(self, messages):
         """Analisa as mensagens antes de serem adicionadas ao banco de dados e remove
         dupĺicações"""
         messages = self._removeDuplicate(messages, "history")
         messages = self._removeDuplicate(messages, "waiting")
+        self._removeOldDataFromHystory()
 
         if len(messages) > 0:
             self._database["waiting"] += messages
