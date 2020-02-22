@@ -5,20 +5,20 @@ import os
 
 class Database():
     """
-    this class is used to manage pending and sent messages,
-    like a database, it allows:
+    Esta classe é usada para gerenciar mensagens, enviadas e pendentes
+    como um banco de dados, ela permite:
 
-    :save messages that could not be sent
-    :add messages sent to history
-    :analyze messages before adding to the database and remove duplicates
-    if they exist
+    :salvar mensagens que ainda não foram enviadas
+    :adicionar mensagens enviadas a um historico
+    :analisar mensagens antes de serem adicionar ao banco de dados e removendo
+    duplicações
     """
     def __init__(self, directory=".database", filename="database.json"):
         self._directory = directory
         self._filename = filename
         self._database = None
 
-        # loads the json dict, if the file does not exist, a new dict is created
+        # carrega na memoria o json, se o arquivo não existir, um novo será criado
         if os.path.exists(f"{self._directory}/{self._filename}"):
             with open(f"{self._directory}/{self._filename}", "r") as file:
                 self._database = json.load(file)
@@ -31,7 +31,7 @@ class Database():
             self._database["history"] = []
 
     def _removeDuplicate(self, messages, dict_key):
-        """analyzes the database list and removes elements that are there"""
+        """Analisa a lista do banco de dados e remove duplicações"""
 
         tem_list = [messages[x]["title"] for x in range(len(messages))]
 
@@ -45,14 +45,14 @@ class Database():
         return messages
 
     def _saveDatabase(self):
-        """Update the json file with latest data from dict"""
+        """Atualiza o arquivo json com os ultimos dados do dict"""
 
         with open(f"{self._directory}/{self._filename}", "w") as file:
             json.dump(self._database, file, ensure_ascii=False, indent=2)
 
     def add(self, messages):
-        """analyze messages before adding to the database and remove duplicates
-        if they exist"""
+        """Analisa as mensagens antes de serem adicionadas ao banco de dados e remove
+        dupĺicações"""
         messages = self._removeDuplicate(messages, "history")
         messages = self._removeDuplicate(messages, "waiting")
 
@@ -62,12 +62,12 @@ class Database():
         self._saveDatabase()
 
     def getWaitingMessages(self):
-        """returns pending messages"""
+        """retona as mensagens não enviadas"""
         return copy.deepcopy(self._database["waiting"])
 
     def removeFromWaitList(self, message):
-        """removes from the pending message passed as a parameter
-        and adds it to the history"""
+        """remove da lista de mensagens pendentes, a mensagem passada como parametro
+        e adiciona a lista do historico"""
 
         index_ = self._database["waiting"].index(message)
         date = str(datetime.datetime.now())
