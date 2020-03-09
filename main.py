@@ -1,5 +1,3 @@
-import time
-
 from BotAuth import DataBot
 from modules.data import Database
 from modules.rss import AnalyzeRSS, downloadXML
@@ -26,14 +24,11 @@ if __name__ == "__main__":
     bot = BotTelegram(token, chatId)
 
     for message in messages:
-        #DEBUG
         messageToSend = message["title"] + "\n" + message["link"]
-        print(messageToSend)
-        #answer = bot.sendMessage(messageToSend)
+        responses = bot.sendMessage(messageToSend)
 
-        if True:
+        if True in responses:
             database.removeFromWaitList(message)
-            time.sleep(1)
         else:
             print("Error")
             break
