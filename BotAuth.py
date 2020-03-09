@@ -1,3 +1,5 @@
+import json
+
 class DataBot():
     @staticmethod
     def writeJson(token, chat_id):
