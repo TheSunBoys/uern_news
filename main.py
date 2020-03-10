@@ -1,7 +1,7 @@
 from BotAuth import DataBot
-from modules.data import Database
-from modules.rss import AnalyzeRSS, downloadXML
-from modules.telegram import BotTelegram
+from core.data import Database
+from core.rss import AnalyzeRSS, downloadXML
+from core.telegram import BotTelegram
 
 if __name__ == "__main__":
     URLS = [
