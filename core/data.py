@@ -14,7 +14,7 @@ class Database():
     duplicações
     """
     
-    def __init__(self, directory=".database", filename="database.json", sizeHistory=30):
+    def __init__(self, directory=".database", filename="database.json", sizeHistory=60):
         self._directory = directory
         self._filename = filename
         self._sizeHistory = sizeHistory
