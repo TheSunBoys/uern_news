@@ -35,11 +35,11 @@ class Database():
     def _removeDuplicate(self, messages, dict_key):
         """Analisa a lista do banco de dados e remove duplicações"""
 
-        tem_list = [messages[x]["title"] for x in range(len(messages))]
+        tem_list = [messages[x]["link"] for x in range(len(messages))]
 
         for elt in self._database[dict_key]:
-            if elt["title"] in tem_list:
-                index_ = tem_list.index(elt["title"])
+            if elt["link"] in tem_list:
+                index_ = tem_list.index(elt["link"])
 
                 del(messages[index_])
                 del(tem_list[index_])
