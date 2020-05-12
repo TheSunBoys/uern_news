@@ -3,6 +3,8 @@ import urllib.request
 import xml.etree.ElementTree as ET
 
 def downloadXML(urls, directory=".database"):
+    print('[RSS] Baixando xmls ...') # log
+
     filenames = list()
     
     if os.path.exists(directory) == False:
@@ -13,8 +15,8 @@ def downloadXML(urls, directory=".database"):
             urllib.request.urlretrieve(urls[i], f"{directory}/file{i}.xml")
             filenames.append(f"{directory}/file{i}.xml")
         except:
-            print(f"Error in url: {urls[i]}")
-            continue
+            print(f'[RSS] erro ao tentar baixar da url {urls[i]}') # log
+            continue # testar se há danos ao remover essa instrução 'continue'
 
     return filenames
 
@@ -53,6 +55,7 @@ class AnalyzeRSS():
             os.remove(file)
 
     def getData(self):
+        print('[RSS] analisando xmls ...') # log
         
         if self._filenames != None:
             data = self._xtractData(self._filenames)

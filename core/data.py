@@ -49,6 +49,7 @@ class Database():
     def _saveDatabase(self):
         """Atualiza o arquivo json com os ultimos dados do dict"""
 
+        print('[Database] Atualizando database.json ...') # log
         with open(f"{self._directory}/{self._filename}", "w") as file:
             json.dump(self._database, file, ensure_ascii=False, indent=2)
 
@@ -58,6 +59,7 @@ class Database():
 
         while len(self._database["history"]) > self._sizeHistory:
             del(self._database["history"][0])
+            print('[Database] Item do historico foi apagado ...') # log
     
     def add(self, messages):
         """Analisa as mensagens antes de serem adicionadas ao banco de dados e remove

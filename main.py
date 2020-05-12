@@ -4,6 +4,8 @@ from core.rss import AnalyzeRSS, downloadXML
 from core.telegram import BotTelegram
 
 if __name__ == "__main__":
+    print('[CORE] Iniciando algoritmo ...')
+
     URLS = [
         "http://portal.uern.br/blog/category/noticias/feed/",
         "https://aduern.org.br/category/noticias/feed/"

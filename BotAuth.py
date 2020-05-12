@@ -10,6 +10,7 @@ class DataBot():
 
     @staticmethod
     def readJson():
+        print('[DataBot] Lendo dados do json ...')
         with open(".bot.json", "r") as file:
             config = json.load(file)
 

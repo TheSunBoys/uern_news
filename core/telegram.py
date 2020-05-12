@@ -16,7 +16,9 @@ class BotTelegram():
             try:
                 urllib.request.urlopen(API)
                 responses.append(True)
+                print('[telegram] Mensagem enviada com sucesso') # log
             except:
+                print('[telegram] Erro ao tentar enviar mensagem') # log
                 responses.append(None)
                 continue
 
