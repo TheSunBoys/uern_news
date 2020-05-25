@@ -5,18 +5,16 @@ import xml.etree.ElementTree as ET
 def downloadXML(urls, directory=".database"):
     print('[RSS] Baixando xmls ...') # log
 
-    filenames = list()
-    
     if os.path.exists(directory) == False:
         os.mkdir(directory)
 
+    filenames = []
     for i in range(len(urls)):
         try:
             urllib.request.urlretrieve(urls[i], f"{directory}/file{i}.xml")
             filenames.append(f"{directory}/file{i}.xml")
         except:
             print(f'[RSS] erro ao tentar baixar da url {urls[i]}') # log
-            continue # testar se há danos ao remover essa instrução 'continue'
 
     return filenames
 
