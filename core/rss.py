@@ -5,9 +5,6 @@ import xml.etree.ElementTree as ET
 def downloadXML(urls, directory=".database"):
     print('[RSS] Baixando xmls ...') # log
 
-    if os.path.exists(directory) == False:
-        os.mkdir(directory)
-
     filenames = []
     for i in range(len(urls)):
         try:

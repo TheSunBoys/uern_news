@@ -13,8 +13,8 @@ if __name__ == "__main__":
 
     token, chatId = DataBot.readJson()
 
-    files = downloadXML(URLS)
     database = Database(sizeHistory=len(URLS)*100)
+    files = downloadXML(URLS)
 
     if len(files) > 0:
         analyze = AnalyzeRSS(filenames=files)
