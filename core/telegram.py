@@ -23,12 +23,7 @@ class BotTelegram():
                 continue
 
         return responses
-            
-
-    def sendPhoto(self):
-        pass
 
     def getUpdates(self):
         API = f"https://api.telegram.org/bot{self._token}/getUpdates"
         urllib.request.urlretrieve(urls[i], "getUpdates.json")
-
