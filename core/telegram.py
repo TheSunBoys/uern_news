@@ -11,7 +11,7 @@ class BotTelegram():
         responses = list()
 
         for id in self._chatId:
-            API = f"https://api.telegram.org/bot{self._token}/sendMessage?chat_id={id}&text={message}"
+            API = f'https://api.telegram.org/bot{self._token}/sendMessage?chat_id={id}&text={message}'
   
             try:
                 urllib.request.urlopen(API)
@@ -25,5 +25,5 @@ class BotTelegram():
         return responses
 
     def getUpdates(self):
-        API = f"https://api.telegram.org/bot{self._token}/getUpdates"
-        urllib.request.urlretrieve(urls[i], "getUpdates.json")
+        API = f'https://api.telegram.org/bot{self._token}/getUpdates'
+        urllib.request.urlretrieve(urls[i], 'getUpdates.json')

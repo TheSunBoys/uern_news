@@ -2,14 +2,14 @@ import os
 import urllib.request
 import xml.etree.ElementTree as ET
 
-def downloadXML(urls, directory=".database"):
+def downloadXML(urls, directory='.database'):
     print('[RSS] Baixando xmls ...') # log
 
     filenames = []
     for i in range(len(urls)):
         try:
-            urllib.request.urlretrieve(urls[i], f"{directory}/file{i}.xml")
-            filenames.append(f"{directory}/file{i}.xml")
+            urllib.request.urlretrieve(urls[i], f'{directory}/file{i}.xml')
+            filenames.append(f'{directory}/file{i}.xml')
         except:
             print(f'[RSS] erro ao tentar baixar da url {urls[i]}') # log
 
@@ -17,7 +17,7 @@ def downloadXML(urls, directory=".database"):
 
 
 class AnalyzeRSS():
-    def __init__(self, directory = ".database", filenames=None):
+    def __init__(self, directory = '.database', filenames=None):
         self._dir = directory
         self._filenames = filenames
 
@@ -26,7 +26,7 @@ class AnalyzeRSS():
 
         for file in files:
             root = ET.parse(file).getroot()
-            itemElement = root.findall("channel/item")
+            itemElement = root.findall('channel/item')
 
             for i in itemElement:
                 title = i[0].text
@@ -34,9 +34,9 @@ class AnalyzeRSS():
                 pubdate = i[3].text
 
                 messages.append({
-                    "title": title,
-                    "link": link,
-                    "pubDate": pubdate
+                    'title': title,
+                    'link': link,
+                    'pubDate': pubdate
                 })
 
         # é retornado a reversa da lista para que os ultimos dados postados
