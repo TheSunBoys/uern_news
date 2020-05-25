@@ -22,21 +22,16 @@ class AnalyzeRSS():
         self._filenames = filenames
 
     def _xtractData(self, files):
-        messages = list()
-
         for file in files:
             root = ET.parse(file).getroot()
             itemElement = root.findall('channel/item')
 
+            messages = []
             for i in itemElement:
-                title = i[0].text
-                link = i[1].text
-                pubdate = i[3].text
-
                 messages.append({
-                    'title': title,
-                    'link': link,
-                    'pubDate': pubdate
+                    'title': i[0].text,
+                    'link': i[1].text,
+                    'pubDate': i[3].text
                 })
 
         # é retornado a reversa da lista para que os ultimos dados postados
