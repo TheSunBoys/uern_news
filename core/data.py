@@ -54,8 +54,8 @@ class Database():
             json.dump(self._database, file, ensure_ascii=False, indent=2)
 
     def _removeOldDataFromHystory(self):
-        """Este metodo remove mensagens muito antigas do historico
-        de mensagens para manter o limite de dados do historico"""
+        """remove mensagens muito antigas do historico para manter
+        o limite de dados do historico"""
 
         while len(self._database['history']) > self._sizeHistory:
             del(self._database['history'][0])
