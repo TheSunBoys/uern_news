@@ -3,16 +3,18 @@ from core.data import Database
 from core.rss import AnalyzeRSS, downloadXML
 from core.telegram import BotTelegram
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    print('[CORE] Iniciando algoritmo ...')
+
     URLS = [
-        "http://portal.uern.br/blog/category/noticias/feed/",
-        "https://aduern.org.br/category/noticias/feed/"
+        'http://portal.uern.br/blog/category/noticias/feed/',
+        'https://aduern.org.br/category/noticias/feed/'
     ]
 
     token, chatId = DataBot.readJson()
 
-    files = downloadXML(URLS)
     database = Database(sizeHistory=len(URLS)*100)
+    files = downloadXML(URLS)
 
     if len(files) > 0:
         analyze = AnalyzeRSS(filenames=files)
@@ -24,11 +26,11 @@ if __name__ == "__main__":
     bot = BotTelegram(token, chatId)
 
     for message in messages:
-        messageToSend = message["title"] + "\n" + message["link"]
+        messageToSend = message['title'] + '\n' + message['link']
         responses = bot.sendMessage(messageToSend)
 
         if True in responses:
             database.removeFromWaitList(message)
         else:
-            print("Error")
+            print('Error')
             break

@@ -1,3 +1,5 @@
 *.json
 *.xml
-*.pyc
+
+# bytecode do python
+__pycache__

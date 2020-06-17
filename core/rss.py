@@ -2,44 +2,40 @@ import os
 import urllib.request
 import xml.etree.ElementTree as ET
 
-def downloadXML(urls, directory=".database"):
-    filenames = list()
-    
-    if os.path.exists(directory) == False:
-        os.mkdir(directory)
+def downloadXML(urls, directory='.database'):
+    print('[RSS] Baixando xmls ...') # log
 
+    client = urllib.request.build_opener()
+    client.addheaders = [('User-agent', 'Mozilla/5.0')] # User Agent
+    urllib.request.install_opener(client)
+
+    filenames = []
     for i in range(len(urls)):
         try:
-            urllib.request.urlretrieve(urls[i], f"{directory}/file{i}.xml")
-            filenames.append(f"{directory}/file{i}.xml")
+            urllib.request.urlretrieve(urls[i], f'{directory}/file{i}.xml')
+            filenames.append(f'{directory}/file{i}.xml')
         except:
-            print(f"Error in url: {urls[i]}")
-            continue
+            print(f'[RSS] erro ao tentar baixar da url {urls[i]}') # log
 
     return filenames
 
 
 class AnalyzeRSS():
-    def __init__(self, directory = ".database", filenames=None):
+    def __init__(self, directory = '.database', filenames=None):
         self._dir = directory
         self._filenames = filenames
 
     def _xtractData(self, files):
-        messages = list()
-
         for file in files:
             root = ET.parse(file).getroot()
-            itemElement = root.findall("channel/item")
+            itemElement = root.findall('channel/item')
 
+            messages = []
             for i in itemElement:
-                title = i[0].text
-                link = i[1].text
-                pubdate = i[3].text
-
                 messages.append({
-                    "title": title,
-                    "link": link,
-                    "pubDate": pubdate
+                    'title': i[0].text,
+                    'link': i[1].text,
+                    'pubDate': i[3].text
                 })
 
         # é retornado a reversa da lista para que os ultimos dados postados
@@ -53,6 +49,7 @@ class AnalyzeRSS():
             os.remove(file)
 
     def getData(self):
+        print('[RSS] analisando xmls ...') # log
         
         if self._filenames != None:
             data = self._xtractData(self._filenames)
