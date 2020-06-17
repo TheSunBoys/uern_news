@@ -5,6 +5,10 @@ import xml.etree.ElementTree as ET
 def downloadXML(urls, directory='.database'):
     print('[RSS] Baixando xmls ...') # log
 
+    client = urllib.request.build_opener()
+    client.addheaders = [('User-agent', 'Mozilla/5.0')] # User Agent
+    urllib.request.install_opener(client)
+
     filenames = []
     for i in range(len(urls)):
         try:
