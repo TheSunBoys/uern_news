@@ -59,7 +59,7 @@ class Database():
 
         while len(self._database['history']) > self._sizeHistory:
             del(self._database['history'][0])
-            print('[Database] Item do historico foi apagado ...') # log
+            print('[Database] Uma mensagem do historico foi apagada ...') # log
     
     def add(self, messages):
         """Analisa as mensagens antes de serem adicionadas ao banco de dados e remove
@@ -69,6 +69,7 @@ class Database():
         self._removeOldDataFromHystory()
 
         if len(messages) > 0:
+            print('[Database] mensagens adicionadas a lista de espera')
             self._database['waiting'] += messages
 
         self._saveDatabase()
@@ -90,6 +91,7 @@ class Database():
             'sendDate': date[:len(date)-7]
         })
 
+        print('[Database] Mensagem removida da lista de espera e adicionada ao historico')
         del(self._database['waiting'][index_])
 
         self._saveDatabase()
