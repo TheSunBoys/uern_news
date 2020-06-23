@@ -12,7 +12,8 @@ def downloadXML(urls, directory='.database'):
             urllib.request.urlretrieve(urls[x], f'{directory}/file{x}.xml')
             filenames.append(f'{directory}/file{x}.xml')
         except:
-            print(f'[RSS] erro ao tentar baixar da url {urls[x]}, entando novamente com user-agent definido') # log
+            print(f'[RSS] erro ao tentar baixar da url {urls[x]}') # log
+            print('tentando novamente com user-agent definido')
             failedUrls.append(urls[x])
 
     # donwload com user-agent
