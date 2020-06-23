@@ -25,6 +25,9 @@ def downloadXML(urls, directory='.database'):
         )] # User Agent
         urllib.request.install_opener(client)
     
+        # correcao temporaria, necessita de uma implementacao melhor!
+        x += 1
+
         for x1 in range(len(failedUrls)):
             try:
                 urllib.request.urlretrieve(failedUrls[x1], f'{directory}/file{x+x1}.xml')
