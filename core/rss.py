@@ -7,11 +7,12 @@ class AnalyzeRSS():
         self._filenames = filenames
 
     def _xtractData(self, files):
+        messages = []
+
         for file in files:
             root = ET.parse(file).getroot()
+    
             itemElement = root.findall('channel/item')
-
-            messages = []
             for i in itemElement:
                 messages.append({
                     'title': i[0].text,
