@@ -1,7 +1,5 @@
+import core
 from BotAuth import DataBot
-from core.data import Database
-from core.rss import AnalyzeRSS, downloadXML
-from core.telegram import BotTelegram
 
 if __name__ == '__main__':
     print('[CORE] Iniciando algoritmo ...')
@@ -12,18 +10,17 @@ if __name__ == '__main__':
     ]
 
     token, chatId = DataBot.readJson()
-
-    database = Database(sizeHistory=len(URLS)*100)
-    files = downloadXML(URLS)
+    database = core.Database(sizeHistory=len(URLS)*100)
+    files = core.downloadXML(URLS)
 
     if len(files) > 0:
-        analyze = AnalyzeRSS(filenames=files)
+        analyze = core.AnalyzeRSS(filenames=files)
         datas = analyze.getData()
         database.add(datas)
     
     messages = database.getWaitingMessages()
 
-    bot = BotTelegram(token, chatId)
+    bot = core.BotTelegram(token, chatId)
 
     for message in messages:
         messageToSend = message['title'] + '\n' + message['link']

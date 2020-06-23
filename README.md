@@ -1,4 +1,5 @@
 # [Feed UERN](https://t.me/UERN_news)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 #### sobre o projeto
 - bot feito em python que analisa elementos de um rss e envia para um chat/grupo/canal do telegram usando a API
