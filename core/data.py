@@ -32,7 +32,7 @@ class Database():
             self._database['waiting'] = []
             self._database['history'] = []
 
-    def _removeDuplicate(self, messages, dict_key):
+    def _removeDuplicate(self, messages: list, dict_key: str) -> list:
         """Analisa a lista do banco de dados e remove duplicações"""
 
         tem_list = [messages[x]['link'] for x in range(len(messages))]
@@ -46,14 +46,14 @@ class Database():
 
         return messages
 
-    def _saveDatabase(self):
+    def _saveDatabase(self) -> None:
         """Atualiza o arquivo json com os ultimos dados do dict"""
 
         print('[Database] Atualizando database.json ...') # log
         with open(f'{self._directory}/{self._filename}', 'w') as file:
             json.dump(self._database, file, ensure_ascii=False, indent=2)
 
-    def _removeOldDataFromHystory(self):
+    def _removeOldDataFromHystory(self) -> None:
         """remove mensagens muito antigas do historico para manter
         o limite de dados do historico"""
 
@@ -61,7 +61,7 @@ class Database():
             del(self._database['history'][0])
             print('[Database] Uma mensagem do historico foi apagada ...') # log
     
-    def add(self, messages):
+    def add(self, messages: list) -> None:
         """Analisa as mensagens antes de serem adicionadas ao banco de dados e remove
         dupĺicações"""
         messages = self._removeDuplicate(messages, 'history')
@@ -74,7 +74,7 @@ class Database():
 
         self._saveDatabase()
 
-    def getWaitingMessages(self):
+    def getWaitingMessages(self) -> list:
         """retona as mensagens não enviadas"""
         return copy.deepcopy(self._database['waiting'])
 
