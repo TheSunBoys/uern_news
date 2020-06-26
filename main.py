@@ -1,7 +1,14 @@
+import sys
+
 import core
 from BotAuth import DataBot
 
 if __name__ == '__main__':
+    # verificar versao do python
+    if sys.version_info[0] < 3 or sys.version_info[1] < 6:
+        sys.exit('Este algoritmo requer uma versao do python 3.6 ou superior!')
+
+
     print('[CORE] Iniciando algoritmo ...')
 
     URLS = [
