@@ -2,9 +2,6 @@ import copy
 import sys
 import xml.etree.ElementTree as ET
 
-sys.path.append('..')
-import core
-
 def convertIntToChar(ints: list) -> list:
     """pega uma lista de inteiros e converte em uma lista de caracteres"""
     for x in range(len(ints)):
@@ -17,27 +14,27 @@ def convertCharToInt(strs: list) -> list:
         strs[x] = ord(strs[x])
     return strs
 
-def insertIdent(xml: bytes, indent: int=4) -> bytes:
+def insertIdent(xml: bytes, INDENT: int=4) -> bytes:
     """pega dados com uma estrutura de um xml e insere um indentacao nos dados"""
     xml = convertIntToChar(list(xml))
 
+    indent = INDENT
     x = 0
-    indentation = indent
     while x < len(xml)-1:
-        if xml[x] == '>' and xml[x+1] == '<':
-            if False:
-                pass
+        if xml[x] == '>' and xml[x+1] == '<' and xml[x+2] != '/':
+            xml = xml[:x+1] + ['\n' + (' ' * indent)] + xml[x+1:]
+            indent += INDENT
 
-            elif xml[x+2] != '/':
-                xml = xml[:x+1] + list('\n' + (' ' * indentation)) + xml[x+1:]
-                indentation += indent
+        elif xml[x] == '>' and xml[x+1] != '<':
+            indent -= INDENT
 
-            elif xml[x+2] == '/':
-                indentation -= indent * 2
-                xml = xml[:x+1] + list('\n' + (' ' * indentation)) + xml[x+1:]
-
+        elif xml[x] == '>' and xml[x+1] == '<' and xml[x+2] == '/':
+            indent -= INDENT
+            xml = xml[:x+1] + ['\n' + (' ' * indent)] + xml[x+1:]
+            
         x += 1
-
+    
+    xml = list(''.join(xml))
     return bytes(convertCharToInt(xml))
 
 def createXmlfile():
