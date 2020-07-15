@@ -30,7 +30,7 @@ class AnalyzeRSS():
         for file in self._filenames:
             os.remove(file)
 
-    def getData(self):
+    def getData(self) -> list:
         print('[RSS] analisando xmls ...') # log
         
         if len(self._filenames) > 0:
