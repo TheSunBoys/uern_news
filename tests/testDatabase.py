@@ -1,3 +1,4 @@
+import shutil
 import sys
 import json
 
@@ -19,10 +20,9 @@ def createDataStruct() -> list:
     
     return dataStruct
 
-def checkDataFromClass(data: list) -> None:
+def checkDataFromClass(data: list, DIRECTORY='testDatabase') -> None:
     """Testa o comportamento da classe"""
 
-    DIRECTORY = 'testDatabase'
     FILENAME = 'testDatabase.json'
 
     database = core.Database(directory=DIRECTORY, filename=FILENAME)
@@ -37,8 +37,14 @@ def checkDataFromClass(data: list) -> None:
 def testDatabase() -> None:
     """Executa varios testes na classe Database"""
 
+    DIRECTORY = 'testDatabase'
+
     dataJson = createDataStruct()
-    checkDataFromClass(dataJson)
+    checkDataFromClass(dataJson, DIRECTORY)
+
+    shutil.rmtree(DIRECTORY)
+
+
 
 if __name__ == "__main__":
     testDatabase()
