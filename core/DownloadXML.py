@@ -1,6 +1,6 @@
 import urllib.request
 
-def downloadXML(urls, directory='.database'):
+def downloadXML(urls, directory='.database') -> list:
     print('[RSS] Baixando xmls ...') # log
 
     filenames = []
