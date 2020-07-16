@@ -42,9 +42,9 @@ def createXmlStructure(size=1) -> bytes:
 
     rss = ET.Element('rss')
     channel = ET.SubElement(rss, 'channel')
-    item = ET.SubElement(channel, 'item')
 
     for x in range(size):
+        item = ET.SubElement(channel, 'item')
         ET.SubElement(item, 'title').text = f'titulo{x}'
         ET.SubElement(item, 'link').text = f'link{x}'
         ET.SubElement(item, 'comment').text = f'comentario{x}'
