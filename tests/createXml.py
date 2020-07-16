@@ -48,6 +48,7 @@ def createXmlfile(FILENAME='filetest.xml') -> None:
     ET.SubElement(item, 'title').text = 'um titulo'
     ET.SubElement(item, 'link').text = 'um link'
     ET.SubElement(item, 'comment').text = 'um comentario'
+    ET.SubElement(item, 'pubDate').text = 'uma data'
 
     xml = ET.tostring(rss)
     xml = insertIdent(xml)
