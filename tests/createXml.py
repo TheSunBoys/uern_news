@@ -37,22 +37,27 @@ def insertIdent(xml: bytes, INDENT: int=4) -> bytes:
     xml = list(''.join(xml))
     return bytes(convertCharToInt(xml))
 
-def createXmlfile(FILENAME='filetest.xml') -> None:
-    """Cria um arquivo xml"""
+def createXmlStructure(size=1) -> bytes:
+    """Cria a estrutura basica do xml para testes"""
 
     rss = ET.Element('rss')
     channel = ET.SubElement(rss, 'channel')
     item = ET.SubElement(channel, 'item')
 
-    
-    ET.SubElement(item, 'title').text = 'um titulo'
-    ET.SubElement(item, 'link').text = 'um link'
-    ET.SubElement(item, 'comment').text = 'um comentario'
-    ET.SubElement(item, 'pubDate').text = 'uma data'
+    for x in range(size):
+        ET.SubElement(item, 'title').text = f'titulo{x}'
+        ET.SubElement(item, 'link').text = f'link{x}'
+        ET.SubElement(item, 'comment').text = f'comentario{x}'
+        ET.SubElement(item, 'pubDate').text = f'uma data{x}'
 
-    xml = ET.tostring(rss)
+    return ET.tostring(rss)
+
+def createXmlfile(FILENAME='filetest.xml', SIZE_ITEMS: int=1) -> None:
+    """Cria um arquivo xml"""
+
+    xml = createXmlStructure(SIZE_ITEMS)
     xml = insertIdent(xml)
-    with open('fileTest.xml', 'wb') as xmlFile:
+    with open(FILENAME, 'wb') as xmlFile:
         xmlFile.write(xml)
 
 if __name__ == "__main__":
