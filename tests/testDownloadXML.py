@@ -1,3 +1,4 @@
+import hashlib
 import multiprocessing
 import os
 import random
@@ -8,6 +9,20 @@ sys.path.append('..')
 
 import core
 from createXml import createXmlfile
+
+def getHashFile(filename: str) -> bytes:
+    BLOCK_SIZE = 128 * 64
+    sha2 = hashlib.sha256()
+    file = open(filename, 'rb')
+
+    while True:
+        data = file.read(BLOCK_SIZE)
+        if not data:
+            break
+
+        sha2.update(data)
+
+    return sha2.digest()
 
 def startSimpleServer(PORT='8080'):
     os.system(f'python -m http.server {PORT}')
@@ -23,9 +38,11 @@ def testDownloadXml():
     server.start()
 
     time.sleep(2)
-    print(core.downloadXML(URLS, directory='.'))
+    core.downloadXML(URLS, directory='.')
 
     server.terminate()
+
+    assert getHashFile(FILENAME) == getHashFile('file0.xml')
 
 if __name__ == "__main__":
     testDownloadXml()
