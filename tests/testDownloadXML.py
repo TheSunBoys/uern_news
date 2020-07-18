@@ -12,7 +12,7 @@ from createXml import createXmlfile
 def startSimpleServer(PORT='8080'):
     os.system(f'python -m http.server {PORT}')
 
-if __name__ == "__main__":
+def testDownloadXml():
     FILENAME = 'testDownload.xml'
     PORT = f'{random.randint(48620, 49150)}'
     URLS = [f'http://127.0.0.1:{PORT}/{FILENAME}']
@@ -26,5 +26,8 @@ if __name__ == "__main__":
     print(core.downloadXML(URLS, directory='.'))
 
     server.terminate()
+
+if __name__ == "__main__":
+    testDownloadXml()
 
     
