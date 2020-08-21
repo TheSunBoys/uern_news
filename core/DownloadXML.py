@@ -1,6 +1,6 @@
 import urllib.request
 
-def downloadXML(urls, directory='.database'):
+def downloadXML(urls, directory='.database') -> list:
     print('[RSS] Baixando xmls ...') # log
 
     filenames = []
@@ -33,6 +33,6 @@ def downloadXML(urls, directory='.database'):
                 urllib.request.urlretrieve(failedUrls[x1], f'{directory}/file{x+x1}.xml')
                 filenames.append(f'{directory}/file{x+x1}.xml')
             except:
-                print(f'[RSS] erro ao tentar baixar da url {urls[i]}') # log
+                print(f'[RSS] erro ao tentar baixar da url {urls[x1]}') # log
 
     return filenames

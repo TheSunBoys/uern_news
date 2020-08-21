@@ -2,7 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 
 class AnalyzeRSS():
-    def __init__(self, directory = '.database', filenames=None):
+    def __init__(self, directory='.database', filenames: list=[]):
         self._dir = directory
         self._filenames = filenames
 
@@ -30,10 +30,10 @@ class AnalyzeRSS():
         for file in self._filenames:
             os.remove(file)
 
-    def getData(self):
+    def getData(self) -> list:
         print('[RSS] analisando xmls ...') # log
         
-        if self._filenames != None:
+        if len(self._filenames) > 0:
             data = self._xtractData(self._filenames)
             self._removeFiles()    
 

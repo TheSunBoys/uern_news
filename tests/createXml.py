@@ -2,9 +2,6 @@ import copy
 import sys
 import xml.etree.ElementTree as ET
 
-sys.path.append('..')
-import core
-
 def convertIntToChar(ints: list) -> list:
     """pega uma lista de inteiros e converte em uma lista de caracteres"""
     for x in range(len(ints)):
@@ -17,46 +14,50 @@ def convertCharToInt(strs: list) -> list:
         strs[x] = ord(strs[x])
     return strs
 
-def insertIdent(xml: bytes, indent: int=4) -> bytes:
+def insertIdent(xml: bytes, INDENT: int=4) -> bytes:
     """pega dados com uma estrutura de um xml e insere um indentacao nos dados"""
     xml = convertIntToChar(list(xml))
 
+    indent = INDENT
     x = 0
-    indentation = indent
     while x < len(xml)-1:
-        if xml[x] == '>' and xml[x+1] == '<':
-            if False:
-                pass
+        if xml[x] == '>' and xml[x+1] == '<' and xml[x+2] != '/':
+            xml = xml[:x+1] + ['\n' + (' ' * indent)] + xml[x+1:]
+            indent += INDENT
 
-            elif xml[x+2] != '/':
-                xml = xml[:x+1] + list('\n' + (' ' * indentation)) + xml[x+1:]
-                indentation += indent
+        elif xml[x] == '>' and xml[x+1] != '<':
+            indent -= INDENT
 
-            elif xml[x+2] == '/':
-                indentation -= indent * 2
-                xml = xml[:x+1] + list('\n' + (' ' * indentation)) + xml[x+1:]
-
+        elif xml[x] == '>' and xml[x+1] == '<' and xml[x+2] == '/':
+            indent -= INDENT
+            xml = xml[:x+1] + ['\n' + (' ' * indent)] + xml[x+1:]
+            
         x += 1
-
+    
+    xml = list(''.join(xml))
     return bytes(convertCharToInt(xml))
 
-def createXmlfile():
-    """Cria um arquivo xml"""
+def createXmlStructure(size=1) -> bytes:
+    """Cria a estrutura basica do xml para testes"""
 
     rss = ET.Element('rss')
     channel = ET.SubElement(rss, 'channel')
-    item = ET.SubElement(channel, 'item')
 
-    
-    ET.SubElement(item, 'title').text = 'um titulo'
-    ET.SubElement(item, 'link').text = 'um link'
-    ET.SubElement(item, 'comment').text = 'um comentario'
+    for x in range(size):
+        item = ET.SubElement(channel, 'item')
+        ET.SubElement(item, 'title').text = f'titulo{x}'
+        ET.SubElement(item, 'link').text = f'link{x}'
+        ET.SubElement(item, 'comment').text = f'comentario{x}'
+        ET.SubElement(item, 'pubDate').text = f'uma data{x}'
 
-    
+    return ET.tostring(rss)
 
-    xml = ET.tostring(rss)
+def createXmlfile(FILENAME='filetest.xml', SIZE_ITEMS: int=1) -> None:
+    """Cria um arquivo xml"""
+
+    xml = createXmlStructure(SIZE_ITEMS)
     xml = insertIdent(xml)
-    with open('fileTest.xml', 'wb') as xmlFile:
+    with open(FILENAME, 'wb') as xmlFile:
         xmlFile.write(xml)
 
 if __name__ == "__main__":
