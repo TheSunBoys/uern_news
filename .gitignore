@@ -1,5 +1,1 @@
-*.json
-*.xml
-
-# bytecode do python
-__pycache__
+/target
