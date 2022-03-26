@@ -8,21 +8,15 @@ class BotTelegram():
 
     def sendMessage(self, message):
         message = urllib.parse.quote(message)
-        responses = list()
+        API = f'https://api.telegram.org/bot{self._token}/sendMessage?chat_id={self._chatId}&text={message}'
 
-        for id in self._chatId:
-            API = f'https://api.telegram.org/bot{self._token}/sendMessage?chat_id={id}&text={message}'
-  
-            try:
-                urllib.request.urlopen(API)
-                responses.append(True)
-                print('[telegram] Mensagem enviada com sucesso') # log
-            except:
-                print('[telegram] Erro ao tentar enviar mensagem') # log
-                responses.append(None)
-                continue
-
-        return responses
+        try:
+            urllib.request.urlopen(API)
+            print('[telegram] Mensagem enviada com sucesso') # log
+            return True
+        except:
+            print('[telegram] Erro ao tentar enviar mensagem') # log
+            return False
 
     def getUpdates(self):
         API = f'https://api.telegram.org/bot{self._token}/getUpdates'

@@ -24,17 +24,15 @@ if __name__ == '__main__':
         analyze = core.AnalyzeRSS(filenames=files)
         datas = analyze.getData()
         database.add(datas)
-    
+
     messages = database.getWaitingMessages()
 
     bot = core.BotTelegram(token, chatId)
 
     for message in messages:
         messageToSend = message['title'] + '\n' + message['link']
-        responses = bot.sendMessage(messageToSend)
 
-        if True in responses:
+        if bot.sendMessage(messageToSend):
             database.removeFromWaitList(message)
         else:
             print('Error')
-            break
