@@ -1,10 +1,11 @@
-use std::fs::File;
-use std::io;
+use bytes::Bytes;
 
-pub fn download_files(urls: &[&str], directory_save: &str) {
-    for (idx, url) in urls.iter().enumerate() {
-        let mut resp = reqwest::blocking::get(*url).unwrap();
-        let mut out = File::create(format!("{directory_save}/file{idx}.xml")).unwrap();
-        io::copy(&mut resp, &mut out).expect("failed to copy content");
+pub fn download_data(urls: &[&str]) -> Vec<Bytes> {
+    let mut contents = Vec::with_capacity(urls.len());
+
+    for url in urls {
+        let content = reqwest::blocking::get(*url).unwrap();
+        contents.push(content.bytes().unwrap());
     }
+    contents
 }
