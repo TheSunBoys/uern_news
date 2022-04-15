@@ -14,16 +14,14 @@ fn main() {
         .map(|c| Channel::read_from(&c[..]).unwrap())
         .collect();
 
-    channels.iter().for_each(|c| {
-        for item in c.items.iter().rev() {
-            let title = item.title().unwrap();
-            let link = item.link().unwrap();
-            let pub_date = item.pub_date().unwrap();
+    for item in channels.iter().flat_map(|c| c.items.iter().rev()) {
+        let title = item.title().unwrap();
+        let link = item.link().unwrap();
+        let pub_date = item.pub_date().unwrap();
 
-            println!("{title}");
-            println!("{link}");
-            println!("{pub_date}");
-            println!()
-        }
-    });
+        println!("{title}");
+        println!("{link}");
+        println!("{pub_date}");
+        println!()
+    }
 }
