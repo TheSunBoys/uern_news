@@ -1,11 +1,9 @@
 use bytes::Bytes;
+use reqwest::blocking::Response;
 
-pub fn download_data(urls: &[&str]) -> Vec<Bytes> {
-    let mut contents = Vec::with_capacity(urls.len());
-
-    for url in urls {
-        let content = reqwest::blocking::get(*url).unwrap();
-        contents.push(content.bytes().unwrap());
-    }
-    contents
+pub fn download_data<'a>(urls: &'a [&'a str]) -> impl Iterator<Item = Bytes> + 'a {
+    urls.iter()
+        .copied()
+        .flat_map(reqwest::blocking::get)
+        .flat_map(Response::bytes)
 }
