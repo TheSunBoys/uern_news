@@ -17,6 +17,4 @@ para cria-lo basta usar o arquivo *BotAuth.py* e modificar o final com seus dado
 
 - instruções sobre criar e manipular um bot telegram podem ser acessadas em: https://core.telegram.org/bots
 
-<a href="https://www.buymeacoffee.com/marcosfonseca" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
-
 ##### este projeto não tem qualquer relação com a equipe administrativa da uern
