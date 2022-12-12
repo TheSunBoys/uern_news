@@ -10,15 +10,18 @@ class AnalyzeRSS():
         messages = []
 
         for file in files:
-            root = ET.parse(file).getroot()
-    
-            itemElement = root.findall('channel/item')
-            for i in itemElement:
-                messages.append({
-                    'title': i[0].text,
-                    'link': i[1].text,
-                    'pubDate': i[3].text
-                })
+            try:
+                root = ET.parse(file).getroot()
+
+                itemElement = root.findall('channel/item')
+                for i in itemElement:
+                    messages.append({
+                        'title': i[0].text,
+                        'link': i[1].text,
+                        'pubDate': i[3].text
+                        })
+            except:
+                print(f'erro ao tentar analisar {file}')
 
         # é retornado a reversa da lista para que os ultimos dados postados
         # no xml fiquem no fim da lista
