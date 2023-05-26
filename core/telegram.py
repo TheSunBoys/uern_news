@@ -1,3 +1,4 @@
+import os
 import urllib.parse
 import urllib.request
 
@@ -8,10 +9,10 @@ class BotTelegram():
 
     def sendMessage(self, message):
         message = urllib.parse.quote(message)
-        API = f'https://api.telegram.org/bot{self._token}/sendMessage?chat_id={self._chatId}&text={message}'
+        command = f'curl -X POST https://api.telegram.org/bot{self._token}/sendMessage -H \'Content-Type: application/json\' -d \'{"chat_id":"{self._chatId}","text":"{message}"}\''
 
         try:
-            urllib.request.urlopen(API)
+            os.system(command)
             print('[telegram] Mensagem enviada com sucesso') # log
             return True
         except:
