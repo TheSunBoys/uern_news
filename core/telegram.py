@@ -18,7 +18,3 @@ class BotTelegram():
         except:
             print('[telegram] Erro ao tentar enviar mensagem') # log
             return False
-
-    def getUpdates(self):
-        API = f'https://api.telegram.org/bot{self._token}/getUpdates'
-        urllib.request.urlretrieve(urls[i], 'getUpdates.json')
