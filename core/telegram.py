@@ -8,8 +8,11 @@ class BotTelegram():
         self._chatId = chatId
 
     def sendMessage(self, message):
-        message = urllib.parse.quote(message)
-        command = f'curl -X POST https://api.telegram.org/bot{self._token}/sendMessage -H \'Content-Type: application/json\' -d \'{"chat_id":"{self._chatId}","text":"{message}"}\''
+        api = f'https://api.telegram.org/bot{self._token}/sendMessage'
+        header = 'Content-Type: application/json'
+        json = '{' + f'"chat_id": "{self._chatId}", "text": "{message}"' + '}'
+
+        command = f'curl -X POST {api} -H \'{header}\' -d \'{json}\''
 
         try:
             os.system(command)
